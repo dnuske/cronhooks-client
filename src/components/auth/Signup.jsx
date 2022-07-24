@@ -19,13 +19,16 @@ export default function Signup() {
       email: '',
       password: '',
       password2: '',
-      allowSendingEmails: false,
+      wants_product_updates: false,
     },
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value) => value.length > 6 ? null : 'Password too short',
-      password2: (value) => value.length > 6 ? null : 'Password too short',
+      password2: (value, values) => {
+        if (!(value.length > 6)) {return 'Password too short'}
+        if (value !== values.password) {return 'Passwords did not match'}
+      }
     },
   });
 
@@ -57,7 +60,7 @@ export default function Signup() {
       <Checkbox
         mt="md"
         label="I want to receive Cronhooks product updates"
-        {...form.getInputProps('allowSendingEmails', { type: 'checkbox' })}
+        {...form.getInputProps('wants_product_updates', { type: 'checkbox' })}
       />
       <Space h="xs" />
 

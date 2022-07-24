@@ -24,3 +24,8 @@ export const displayBadCredentialErrorMessage = () => {
   });
 }
 
+export default {
+  displayDefaultErrorMessage,
+  displayUserAlreadyExistsErrorMessage,
+  displayBadCredentialErrorMessage,
+}

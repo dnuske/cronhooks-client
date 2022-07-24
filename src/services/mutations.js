@@ -1,11 +1,8 @@
 import {useLocalStorage} from "@mantine/hooks";
 import {useMutation} from "@tanstack/react-query";
 import api from "./api";
-import {
-  displayBadCredentialErrorMessage,
-  displayDefaultErrorMessage,
-  displayUserAlreadyExistsErrorMessage
-} from "./notifications";
+import error from "./notifications/error";
+import success from "./notifications/success";
 
 export function useAuthMutation() {
   const [accessToken, setAccessToken] = useLocalStorage({ key: 'access-token' });
@@ -14,7 +11,7 @@ export function useAuthMutation() {
     onError: (error, variables, context) => {
       try {
         if (error.response.data.detail === 'LOGIN_BAD_CREDENTIALS') {
-          displayBadCredentialErrorMessage();
+          error.displayBadCredentialErrorMessage();
           return;
         }
       } catch (e) {
@@ -22,7 +19,7 @@ export function useAuthMutation() {
       }
       console.log("error", error)
 
-      displayDefaultErrorMessage();
+      error.displayDefaultErrorMessage();
 
     },
     onSuccess: (data, variables, context) => {
@@ -40,7 +37,7 @@ export function useRegisterMutation() {
     onError: (error, variables, context) => {
       try {
         if (error.response.data.detail === 'REGISTER_USER_ALREADY_EXISTS') {
-          displayUserAlreadyExistsErrorMessage();
+          error.displayUserAlreadyExistsErrorMessage();
           return;
         }
       } catch (e) {
@@ -48,7 +45,7 @@ export function useRegisterMutation() {
       }
       console.log("error", error)
 
-      displayDefaultErrorMessage();
+      error.displayDefaultErrorMessage();
 
     },
     onSuccess: (data, variables, context) => {
@@ -58,3 +55,16 @@ export function useRegisterMutation() {
   return { ...registerMutation, isLoading: registerMutation.isLoading || authMutation.isLoading};
 }
 
+export function useResetPassMutation() {
+  const mutation = useMutation(api.resetPass, {
+    onError: (error, variables, context) => {
+      console.log("error", error)
+      error.displayDefaultErrorMessage();
+    },
+    onSuccess: (data, variables, context) => {
+      success.displayPasswordResetMessage();
+    },
+  })
+
+  return mutation;
+}

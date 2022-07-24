@@ -15,7 +15,12 @@ export const register = userData => {
   return axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/register`, userData)
 }
 
+export const resetPass = userData => {
+  return axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/forgot-password`, userData)
+}
+
 export default {
   authenticate,
-  register
+  register,
+  resetPass
 }

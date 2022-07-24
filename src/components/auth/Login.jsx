@@ -3,18 +3,22 @@ import {
   Button,
   Group,
   PasswordInput,
-  Space, LoadingOverlay
+  Space, LoadingOverlay, Modal
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import {ArrowBigRight} from "tabler-icons-react";
-import {useAuthMutation} from "../../services/mutations";
+import {useAuthMutation, useResetPassMutation} from "../../services/mutations";
+import {useState} from "react";
 
 
 export default function Login() {
 
-  const authMutation = useAuthMutation();
+  const [resetPasswordOpened, setResetPasswordOpened] = useState(false);
 
-  const form = useForm({
+  const authMutation = useAuthMutation();
+  const resetPassMutation = useResetPassMutation();
+
+  const loginForm = useForm({
     initialValues: {
       email: '',
       password: ''
@@ -26,25 +30,62 @@ export default function Login() {
     },
   });
 
+  const resetForm = useForm({
+    initialValues: {
+      email: ''
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
+
   return (<div style={{position: 'relative'}} >
     <LoadingOverlay visible={authMutation.isLoading} />
-      <form onSubmit={form.onSubmit((values) => authMutation.mutate(values))}>
+      <Modal
+        opened={resetPasswordOpened}
+        onClose={() => setResetPasswordOpened(false)}
+        title="Reset your password"
+      >
+        <form onSubmit={resetForm.onSubmit((values) => {
+          resetPassMutation.mutate(values);
+          setResetPasswordOpened(false);
+        })}>
+          <TextInput
+            required
+            label="Email"
+            placeholder="your@email.com"
+            {...resetForm.getInputProps('email')}
+          />
+          <Space h="sm" />
+          <Group position="right" mt="md">
+            <Button type="submit" ><ArrowBigRight
+              size={28}
+              strokeWidth={2}
+              color={'white'}
+            /></Button>
+          </Group>
+        </form>
+      </Modal>
+
+      <form onSubmit={loginForm.onSubmit((values) => authMutation.mutate(values))}>
         <TextInput
           required
           label="Email"
           placeholder="your@email.com"
-          {...form.getInputProps('email')}
+          {...loginForm.getInputProps('email')}
         />
         <Space h="sm" />
         <PasswordInput
           placeholder="Password"
           label="Password"
           required
-          {...form.getInputProps('password')}
+          {...loginForm.getInputProps('password')}
         />
         <Space h="xs" />
 
-        <Group position="right" mt="md">
+        <Group position="apart" mt="md">
+          <Button variant="subtle" size="xs" onClick={() => setResetPasswordOpened(true)} >(forgot my password)</Button>
           <Button type="submit" ><ArrowBigRight
             size={28}
             strokeWidth={2}
