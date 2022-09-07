@@ -8,6 +8,15 @@ export const displayPasswordResetMessage = () => {
   });
 }
 
+export const displayHookCreatedMessage = () => {
+  showNotification({
+    title: 'New hook created',
+    message: 'A new hook was created and will be hit on the specified time.',
+    color: 'green',
+  });
+}
+
 export default {
-  displayPasswordResetMessage
+  displayPasswordResetMessage,
+  displayHookCreatedMessage,
 }

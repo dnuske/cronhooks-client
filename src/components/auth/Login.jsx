@@ -7,7 +7,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import {ArrowBigRight} from "tabler-icons-react";
-import {useAuthMutation, useResetPassMutation} from "../../services/mutations";
+import {useAuthMutation, useForgotPassMutation} from "../../services/mutations";
 import {useState} from "react";
 
 
@@ -16,7 +16,7 @@ export default function Login() {
   const [resetPasswordOpened, setResetPasswordOpened] = useState(false);
 
   const authMutation = useAuthMutation();
-  const resetPassMutation = useResetPassMutation();
+  const forgotPassMutation = useForgotPassMutation();
 
   const loginForm = useForm({
     initialValues: {
@@ -26,7 +26,6 @@ export default function Login() {
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: (value) => value.length > 6 ? null : 'Password too short',
     },
   });
 
@@ -48,7 +47,7 @@ export default function Login() {
         title="Reset your password"
       >
         <form onSubmit={resetForm.onSubmit((values) => {
-          resetPassMutation.mutate(values);
+          forgotPassMutation.mutate(values);
           setResetPasswordOpened(false);
         })}>
           <TextInput

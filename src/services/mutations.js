@@ -1,7 +1,7 @@
 import {useLocalStorage} from "@mantine/hooks";
 import {useMutation} from "@tanstack/react-query";
 import api from "./api";
-import error from "./notifications/error";
+import errorNotifications from "./notifications/error";
 import success from "./notifications/success";
 
 export function useAuthMutation() {
@@ -11,7 +11,7 @@ export function useAuthMutation() {
     onError: (error, variables, context) => {
       try {
         if (error.response.data.detail === 'LOGIN_BAD_CREDENTIALS') {
-          error.displayBadCredentialErrorMessage();
+          errorNotifications.displayBadCredentialErrorMessage();
           return;
         }
       } catch (e) {
@@ -19,7 +19,7 @@ export function useAuthMutation() {
       }
       console.log("error", error)
 
-      error.displayDefaultErrorMessage();
+      errorNotifications.displayDefaultErrorMessage();
 
     },
     onSuccess: (data, variables, context) => {
@@ -37,7 +37,7 @@ export function useRegisterMutation() {
     onError: (error, variables, context) => {
       try {
         if (error.response.data.detail === 'REGISTER_USER_ALREADY_EXISTS') {
-          error.displayUserAlreadyExistsErrorMessage();
+          errorNotifications.displayUserAlreadyExistsErrorMessage();
           return;
         }
       } catch (e) {
@@ -45,7 +45,7 @@ export function useRegisterMutation() {
       }
       console.log("error", error)
 
-      error.displayDefaultErrorMessage();
+      errorNotifications.displayDefaultErrorMessage();
 
     },
     onSuccess: (data, variables, context) => {
@@ -55,14 +55,43 @@ export function useRegisterMutation() {
   return { ...registerMutation, isLoading: registerMutation.isLoading || authMutation.isLoading};
 }
 
+export function useForgotPassMutation() {
+  const mutation = useMutation(api.forgotPass, {
+    onError: (error, variables, context) => {
+      console.log("error", error)
+      errorNotifications.displayDefaultErrorMessage();
+    },
+    onSuccess: (data, variables, context) => {
+      success.displayPasswordResetMessage();
+    },
+  })
+
+  return mutation;
+}
+
 export function useResetPassMutation() {
   const mutation = useMutation(api.resetPass, {
     onError: (error, variables, context) => {
       console.log("error", error)
-      error.displayDefaultErrorMessage();
+      errorNotifications.displayDefaultErrorMessage();
     },
     onSuccess: (data, variables, context) => {
       success.displayPasswordResetMessage();
+    },
+  })
+
+  return mutation;
+}
+
+export function useCreateHookMutation() {
+  const [accessToken] = useLocalStorage({ key: 'access-token' });
+  const mutation = useMutation((userData) => api.createHook(accessToken, userData), {
+    onError: (error, variables, context) => {
+      console.log("error", error)
+      errorNotifications.displayDefaultErrorMessage();
+    },
+    onSuccess: (data, variables, context) => {
+      success.displayHookCreatedMessage();
     },
   })
 
