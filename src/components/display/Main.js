@@ -23,6 +23,7 @@ export default function Main() {
     refetchInterval: 10000,
   });
 
+
   useEffect(() => {
     appState.setCronhooks(cronhooks);
   }, [cronhooks]);

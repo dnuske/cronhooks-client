@@ -1,3 +1,4 @@
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -46,7 +47,9 @@ const WebhookId = () => {
     refetchHits();
   }, [id]);
 
+
   const openDeleteModal = () =>
+
     modals.openConfirmModal({
       title: "Delete this hook",
       centered: true,

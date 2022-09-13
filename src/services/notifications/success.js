@@ -24,6 +24,7 @@ export const displayHookUpdateMessage = () => {
   });
 };
 
+
 export default {
   displayPasswordResetMessage,
   displayHookCreatedMessage,
