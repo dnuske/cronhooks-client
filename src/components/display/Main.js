@@ -13,8 +13,6 @@ export default function Main() {
   let appState = AppState.useContainer();
   const [accessToken] = useLocalStorage({ key: "access-token" });
 
-  console.log(" --- ", accessToken)
-
   const { isLoading, data: cronhooks } = useQuery(
     ["cronhooks"],
     () => getAllHooks(accessToken),
