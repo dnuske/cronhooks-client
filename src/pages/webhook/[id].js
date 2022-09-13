@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useLocalStorage } from "@mantine/hooks";
 import { Edit, Trash } from "tabler-icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  Center,
+  Center, Container,
   Divider,
   Grid,
   Loader,
@@ -13,7 +13,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { openConfirmModal } from "@mantine/modals";
+import { useModals } from '@mantine/modals';
 
 import { deleteHook, getHook, getHookHits } from "../../services/api";
 import EditCronhook from "../../components/actions/EditCronhook";
@@ -23,22 +23,30 @@ const WebhookId = () => {
   const [accessToken] = useLocalStorage({ key: "access-token" });
   const [openedEditModal, setOpenedEditModal] = useState(false);
 
+  const modals = useModals();
+
   const { id } = router.query;
 
-  const { isLoading: loadingHook, data: hook } = useQuery(["cronhooks"], () =>
+  const { isLoading: loadingHook, data: hook, refetch: refetchHook } = useQuery(["cronhook"], () =>
     getHook(accessToken, id)
   );
 
-  const { isLoading: loadingHits, data: hookHits } = useQuery(
-    ["cronhooks"],
+  const { isLoading: loadingHits, data: hookHits, refetch: refetchHits } = useQuery(
+    ["hits"],
     () => getHookHits(accessToken, id)
   );
 
+  useEffect(() => {
+    refetchHook()
+    refetchHits()
+  }, [id])
+
+
   const openModalDelete = () =>
-    openConfirmModal({
+    modals.openConfirmModal({
       title: "Please confirm your action",
       children: (
-        <Text size="sm">
+        <Text size="sm">q
           This action is so important that you are required to confirm it with a
           modal. Please click one of these buttons to proceed.
         </Text>
@@ -58,12 +66,11 @@ const WebhookId = () => {
 
   if (hook && hookHits) {
     return (
-      <>
-        <Center>
+      <Container size={"md"}>
           <Paper shadow="xs" p="md">
             <Grid>
               <Grid.Col span={7}>
-                <Link href="/">{`<- Volver`}</Link>
+                <Link href="/">{`<- Back`}</Link>
               </Grid.Col>
               <Grid.Col span={1} offset={3}>
                 <Edit
@@ -92,7 +99,7 @@ const WebhookId = () => {
               {hookHits.length > 0 ? (
                 hookHits.map((hit, i) => (
                   <p key={`p${i}`}>
-                    {hit.status} - {hit.response}
+                    {hit.started_at} {hit.response_status} - {hit.response}
                   </p>
                 ))
               ) : (
@@ -100,13 +107,12 @@ const WebhookId = () => {
               )}
             </Stack>
           </Paper>
-        </Center>
         <EditCronhook
           setOpened={setOpenedEditModal}
           opened={openedEditModal}
           hook={hook}
         />
-      </>
+      </Container>
     );
   }
 };

@@ -25,6 +25,7 @@ export function useAuthMutation() {
     },
     onSuccess: (data, variables, context) => {
       // store access_token in localstorage
+      console.log(" useAuthMutation success", data)
       setAccessToken(data.data.access_token);
     },
   });

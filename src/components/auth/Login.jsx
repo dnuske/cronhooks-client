@@ -67,7 +67,9 @@ export default function Login() {
         </form>
       </Modal>
 
-      <form onSubmit={loginForm.onSubmit((values) => authMutation.mutate(values))}>
+      <form onSubmit={loginForm.onSubmit((values) => {
+        authMutation.mutate(values)
+      })}>
         <TextInput
           required
           label="Email"
@@ -85,11 +87,13 @@ export default function Login() {
 
         <Group position="apart" mt="md">
           <Button variant="subtle" size="xs" onClick={() => setResetPasswordOpened(true)} >(forgot my password)</Button>
-          <Button type="submit" ><ArrowBigRight
-            size={28}
-            strokeWidth={2}
-            color={'white'}
-          /></Button>
+          <Button type="submit" >
+            <ArrowBigRight
+              size={28}
+              strokeWidth={2}
+              color={'white'}
+            />
+          </Button>
         </Group>
       </form>
     </div>
