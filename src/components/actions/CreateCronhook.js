@@ -10,16 +10,16 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ArrowBigRight } from "tabler-icons-react";
-import {
-  useCreateHookMutation,
-  useResetPassMutation,
-} from "../../services/mutations";
+import { useCreateHookMutation } from "../../services/mutations";
 import { useLocalStorage } from "@mantine/hooks";
+import AppState from "../../services/state";
 
 export default function CreateCronhook() {
   const [accessToken] = useLocalStorage({ key: "access-token" });
 
   const createHookMutation = useCreateHookMutation();
+
+  let appState = AppState.useContainer();
 
   const form = useForm({
     initialValues: {
@@ -39,12 +39,15 @@ export default function CreateCronhook() {
     },
   });
 
+  const handleSubmit = (values) => {
+    createHookMutation.mutate(values);
+    appState.closeGlobalModal();
+  };
+
   return (
     <div style={{ position: "relative" }}>
       <LoadingOverlay visible={createHookMutation.isLoading} />
-      <form
-        onSubmit={form.onSubmit((values) => createHookMutation.mutate(values))}
-      >
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Select
           label="HTTP method"
           placeholder="Pick one"

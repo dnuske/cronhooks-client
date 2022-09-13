@@ -40,12 +40,18 @@ export const createHook = (accessToken, userData) => {
   });
 };
 
-export const getAllHooks = (accessToken) => {
+export const getAllHooks = async (accessToken) => {
   return axios
     .get(`${process.env.NEXT_PUBLIC_API_HOST}/hook/`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-    .then((r) => r.data);
+    .then((r) => r.data)
+    .catch((e) => {
+      if (e.response.status === 401) {
+        localStorage.removeItem("access-token");
+        window.location.href = "/";
+      }
+    });
 };
 
 export const getHook = (accessToken, id) => {
@@ -64,7 +70,7 @@ export const getHookHits = (accessToken, id) => {
     .then((r) => r.data);
 };
 
-export const updateHook = (accessToken, id, userData) => {
+export const updateHook = (accessToken, userData, id) => {
   return axios
     .put(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, userData, {
       headers: { Authorization: `Bearer ${accessToken}` },

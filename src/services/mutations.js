@@ -25,7 +25,7 @@ export function useAuthMutation() {
     },
     onSuccess: (data, variables, context) => {
       // store access_token in localstorage
-      console.log(" useAuthMutation success", data)
+      console.log(" useAuthMutation success", data);
       setAccessToken(data.data.access_token);
     },
   });
@@ -108,14 +108,14 @@ export function useCreateHookMutation() {
 export function useUpdateHookMutation() {
   const [accessToken] = useLocalStorage({ key: "access-token" });
   const mutation = useMutation(
-    (userData) => api.updateHook(accessToken, userData),
+    (userData, id) => api.updateHook(accessToken, userData, id),
     {
       onError: (error, variables, context) => {
         console.log("error", error);
         errorNotifications.displayDefaultErrorMessage();
       },
       onSuccess: (data, variables, context) => {
-        success.displayHookEditedMessage();
+        success.displayHookUpdateMessage();
       },
     }
   );

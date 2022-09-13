@@ -21,9 +21,6 @@ export default function CronhookListItem({ cronhook }) {
             borderRadius: 4,
           },
         }}
-        onClick={() => {
-          console.log("==>", cronhook.id);
-        }}
       >
         <div style={{ flexShrink: 0 }}>{cronhook.method} -&nbsp;</div>
         <div

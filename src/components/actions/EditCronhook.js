@@ -20,6 +20,7 @@ export default function EditCronhook({ setOpened, opened, hook }) {
       method: "",
       url: "",
       cron: "",
+      body: "",
     },
 
     validate: {
@@ -35,10 +36,10 @@ export default function EditCronhook({ setOpened, opened, hook }) {
       method: hook.method,
       url: hook.url,
       cron: hook.cron,
+      body: "",
     });
   }, [opened, hook]);
 
-  //TODO: Hacer que el submit sea le pegue al update
   return (
     <Modal
       opened={opened}
@@ -48,9 +49,10 @@ export default function EditCronhook({ setOpened, opened, hook }) {
       <div style={{ position: "relative" }}>
         <LoadingOverlay visible={updateHookMutation.isLoading} />
         <form
-          onSubmit={form.onSubmit((values) =>
-            updateHookMutation.mutate(values)
-          )}
+          onSubmit={form.onSubmit((values) => {
+            updateHookMutation.mutate(values, hook.id);
+            setOpened(false);
+          })}
         >
           <Select
             label="HTTP method"
