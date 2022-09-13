@@ -64,6 +64,14 @@ export const getHookHits = (accessToken, id) => {
     .then((r) => r.data);
 };
 
+export const updateHook = (accessToken, id, userData) => {
+  return axios
+    .put(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, userData, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .then((r) => r.data);
+};
+
 export const deleteHook = (accessToken, id) => {
   return axios
     .delete(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, {
@@ -81,5 +89,6 @@ export default {
   getAllHooks,
   getHook,
   getHookHits,
+  updateHook,
   deleteHook,
 };

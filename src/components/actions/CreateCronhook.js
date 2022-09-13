@@ -2,48 +2,57 @@ import {
   Button,
   Group,
   PasswordInput,
-  Space, LoadingOverlay, Select, Input, TextInput
-} from '@mantine/core';
-import { useForm } from '@mantine/form';
-import {ArrowBigRight} from "tabler-icons-react";
-import {useCreateHookMutation, useResetPassMutation} from "../../services/mutations";
-import {useLocalStorage} from "@mantine/hooks";
-
+  Space,
+  LoadingOverlay,
+  Select,
+  Input,
+  TextInput,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { ArrowBigRight } from "tabler-icons-react";
+import {
+  useCreateHookMutation,
+  useResetPassMutation,
+} from "../../services/mutations";
+import { useLocalStorage } from "@mantine/hooks";
 
 export default function CreateCronhook() {
-
-  const [accessToken] = useLocalStorage({ key: 'access-token' });
+  const [accessToken] = useLocalStorage({ key: "access-token" });
 
   const createHookMutation = useCreateHookMutation();
 
   const form = useForm({
-    initialValues:{
-      "method": "GET",
-      "url": "",
+    initialValues: {
+      method: "GET",
+      url: "",
       // "body": "string",
-      "cron": "",
+      cron: "",
       // "headers": {},
       // "last_hit": "string",
     },
 
     validate: {
-      "method": value => ['GET', 'POST'].includes(value) ? null : "Not a valid HTTP verb",
+      method: (value) =>
+        ["GET", "POST"].includes(value) ? null : "Not a valid HTTP verb",
       // "url": "string",
       // "cron": "string",
     },
   });
 
-  return (<div style={{position: 'relative'}} >
-    <LoadingOverlay visible={createHookMutation.isLoading} />
-      <form onSubmit={form.onSubmit((values) => createHookMutation.mutate(values))}>
+  return (
+    <div style={{ position: "relative" }}>
+      <LoadingOverlay visible={createHookMutation.isLoading} />
+      <form
+        onSubmit={form.onSubmit((values) => createHookMutation.mutate(values))}
+      >
         <Select
           label="HTTP method"
           placeholder="Pick one"
           data={[
-            { value: 'GET', label: 'GET' },
-            { value: 'POST', label: 'POST' },
+            { value: "GET", label: "GET" },
+            { value: "POST", label: "POST" },
           ]}
-          {...form.getInputProps('method')}
+          {...form.getInputProps("method")}
         />
         <Space h="xs" />
         <TextInput
@@ -51,22 +60,20 @@ export default function CreateCronhook() {
           label="URL"
           description="This url will be hit every time the time specified in cron config is met"
           required
-          {...form.getInputProps('url')}
+          {...form.getInputProps("url")}
         />
         <Space h="xs" />
         <TextInput
           placeholder="0 1 * * *"
           label="Crontab configuration"
           required
-          {...form.getInputProps('cron')}
+          {...form.getInputProps("cron")}
         />
         <Space h="xs" />
         <Group position="right" mt="md">
-          <Button type="submit" ><ArrowBigRight
-            size={28}
-            strokeWidth={2}
-            color={'white'}
-          /></Button>
+          <Button type="submit">
+            <ArrowBigRight size={28} strokeWidth={2} color={"white"} />
+          </Button>
         </Group>
       </form>
     </div>
