@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import '../styles/globals.css';
 import {
   Container,
   MantineProvider,
@@ -6,21 +6,21 @@ import {
   Center,
   Kbd,
   Badge,
-} from "@mantine/core";
-import { ModalsProvider } from "@mantine/modals";
-import Head from "next/head";
+} from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
+import Head from 'next/head';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { NotificationsProvider } from "@mantine/notifications";
-import AppState from "../services/state";
-import Link from "next/link";
-import { useLocalStorage, useOs } from "@mantine/hooks";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { NotificationsProvider } from '@mantine/notifications';
+import AppState from '../services/state';
+import Link from 'next/link';
+import { useLocalStorage, useOs } from '@mantine/hooks';
 
 // Create a client
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
-  const [accessToken] = useLocalStorage({ key: "access-token" });
+  const [accessToken] = useLocalStorage({ key: 'access-token' });
   const os = useOs();
   return (
     <>
@@ -35,8 +35,8 @@ function MyApp({ Component, pageProps }) {
         <QueryClientProvider client={queryClient}>
           <MantineProvider
             theme={{
-              colorScheme: "light",
-              fontFamily: "Verdana",
+              colorScheme: 'light',
+              fontFamily: 'Verdana',
               Button: (theme, params) => ({
                 // Shared button styles are applied to all buttons
                 light: {
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }) {
                       ...theme.fn.fontStyles(),
                       backgroundColor: theme.colors.gray[0],
                       color: theme.black,
-                      fontFamily: "Fira Code",
+                      fontFamily: 'Fira Code',
                     },
                   })}
                 />
@@ -71,11 +71,11 @@ function MyApp({ Component, pageProps }) {
                         size="xl"
                         radius="xl"
                         variant="gradient"
-                        gradient={{ from: "teal", to: "blue", deg: 60 }}
+                        gradient={{ from: 'teal', to: 'blue', deg: 60 }}
                       >
-                        {os === "macos" ? (
+                        {os === 'macos' ? (
                           <>
-                            <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{" "}
+                            <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{' '}
                             <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
                           </>
                         ) : (

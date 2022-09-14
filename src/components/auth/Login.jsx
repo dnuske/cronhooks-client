@@ -6,14 +6,14 @@ import {
   Space,
   LoadingOverlay,
   Modal,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { ArrowBigRight } from "tabler-icons-react";
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { ArrowBigRight } from 'tabler-icons-react';
 import {
   useAuthMutation,
   useForgotPassMutation,
-} from "../../services/mutations";
-import { useState } from "react";
+} from '../../services/mutations';
+import { useState } from 'react';
 
 export default function Login() {
   const [resetPasswordOpened, setResetPasswordOpened] = useState(false);
@@ -23,27 +23,27 @@ export default function Login() {
 
   const loginForm = useForm({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
 
   const resetForm = useForm({
     initialValues: {
-      email: "",
+      email: '',
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: 'relative' }}>
       <LoadingOverlay visible={authMutation.isLoading} />
       <Modal
         opened={resetPasswordOpened}
@@ -60,12 +60,12 @@ export default function Login() {
             required
             label="Email"
             placeholder="your@email.com"
-            {...resetForm.getInputProps("email")}
+            {...resetForm.getInputProps('email')}
           />
           <Space h="sm" />
           <Group position="right" mt="md">
             <Button type="submit">
-              <ArrowBigRight size={28} strokeWidth={2} color={"white"} />
+              <ArrowBigRight size={28} strokeWidth={2} color={'white'} />
             </Button>
           </Group>
         </form>
@@ -80,14 +80,14 @@ export default function Login() {
           required
           label="Email"
           placeholder="your@email.com"
-          {...loginForm.getInputProps("email")}
+          {...loginForm.getInputProps('email')}
         />
         <Space h="sm" />
         <PasswordInput
           placeholder="Password"
           label="Password"
           required
-          {...loginForm.getInputProps("password")}
+          {...loginForm.getInputProps('password')}
         />
         <Space h="xs" />
 
@@ -100,7 +100,7 @@ export default function Login() {
             (forgot my password)
           </Button>
           <Button type="submit">
-            <ArrowBigRight size={28} strokeWidth={2} color={"white"} />
+            <ArrowBigRight size={28} strokeWidth={2} color={'white'} />
           </Button>
         </Group>
       </form>

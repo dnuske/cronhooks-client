@@ -8,41 +8,41 @@ import {
   Input,
   TextInput,
   Box,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { ArrowBigRight } from "tabler-icons-react";
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { ArrowBigRight } from 'tabler-icons-react';
 import {
   useCreateHookMutation,
   useResetPassMutation,
-} from "../../services/mutations";
-import { useLocalStorage } from "@mantine/hooks";
-import { DatePicker, TimeInput } from "@mantine/dates";
+} from '../../services/mutations';
+import { useLocalStorage } from '@mantine/hooks';
+import { DatePicker, TimeInput } from '@mantine/dates';
 
 export default function CreateCronhook() {
-  const [accessToken] = useLocalStorage({ key: "access-token" });
+  const [accessToken] = useLocalStorage({ key: 'access-token' });
 
   const createHookMutation = useCreateHookMutation();
 
   const form = useForm({
     initialValues: {
-      method: "GET",
-      url: "",
+      method: 'GET',
+      url: '',
       // "body": "string",
-      cron: "",
+      cron: '',
       // "headers": {},
       // "last_hit": "string",
     },
 
     validate: {
       method: (value) =>
-        ["GET", "POST"].includes(value) ? null : "Not a valid HTTP verb",
+        ['GET', 'POST'].includes(value) ? null : 'Not a valid HTTP verb',
       // "url": "string",
       // "cron": "string",
     },
   });
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: 'relative' }}>
       <LoadingOverlay visible={createHookMutation.isLoading} />
       <form
         onSubmit={form.onSubmit((values) => createHookMutation.mutate(values))}
@@ -51,10 +51,10 @@ export default function CreateCronhook() {
           label="HTTP method"
           placeholder="Pick one"
           data={[
-            { value: "GET", label: "GET" },
-            { value: "POST", label: "POST" },
+            { value: 'GET', label: 'GET' },
+            { value: 'POST', label: 'POST' },
           ]}
-          {...form.getInputProps("method")}
+          {...form.getInputProps('method')}
         />
         <Space h="xs" />
         <TextInput
@@ -62,11 +62,11 @@ export default function CreateCronhook() {
           label="URL"
           description="This url will be hit every time the time specified in cron config is met"
           required
-          {...form.getInputProps("url")}
+          {...form.getInputProps('url')}
         />
         <Space h="xs" />
         <Box
-          sx={(theme) => ({ display: "flex", alignItems: "flex-end", gap: 8 })}
+          sx={(theme) => ({ display: 'flex', alignItems: 'flex-end', gap: 8 })}
         >
           <DatePicker
             placeholder="Pick date"

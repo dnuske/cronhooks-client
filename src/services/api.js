@@ -1,13 +1,13 @@
-import axios from "axios";
-import qs from "qs";
+import axios from 'axios';
+import qs from 'qs';
 
 export const authenticate = (userData) => {
-  userData["username"] = userData["email"];
+  userData['username'] = userData['email'];
   return axios({
     url: `${process.env.NEXT_PUBLIC_API_HOST}/auth/jwt/login`,
-    method: "post",
+    method: 'post',
     data: qs.stringify(userData),
-    headers: { "content-type": "application/x-www-form-urlencoded" },
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
   });
 };
 
@@ -27,7 +27,7 @@ export const forgotPass = (userData) => {
 
 export const resetPass = (userData) => {
   // userData['token'] = localStorage.getItem('access-token');
-  delete userData["password2"];
+  delete userData['password2'];
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_HOST}/auth/reset-password`,
     userData
@@ -48,8 +48,8 @@ export const getAllHooks = async (accessToken) => {
     .then((r) => r.data)
     .catch((e) => {
       if (e.response.status === 401) {
-        localStorage.removeItem("access-token");
-        window.location.href = "/";
+        localStorage.removeItem('access-token');
+        window.location.href = '/';
       }
     });
 };

@@ -1,17 +1,17 @@
-import { Center, Kbd, Loader, Paper, Stack } from "@mantine/core";
-import { useLocalStorage, useOs } from "@mantine/hooks";
-import AppState from "../../services/state";
-import { useEffect } from "react";
-import { getAllHooks } from "../../services/api";
-import { useQuery } from "@tanstack/react-query";
-import CronhookListItem from "./CronhookListItem";
-import Link from "next/link";
+import { Center, Kbd, Loader, Paper, Stack } from '@mantine/core';
+import { useLocalStorage, useOs } from '@mantine/hooks';
+import AppState from '../../services/state';
+import { useEffect } from 'react';
+import { getAllHooks } from '../../services/api';
+import { useQuery } from '@tanstack/react-query';
+import CronhookListItem from './CronhookListItem';
+import Link from 'next/link';
 
 export default function Main() {
   const os = useOs();
 
   let appState = AppState.useContainer();
-  const [accessToken] = useLocalStorage({ key: "access-token" });
+  const [accessToken] = useLocalStorage({ key: 'access-token' });
 
   // console.log(" --- ", accessToken)
 
@@ -19,10 +19,9 @@ export default function Main() {
     isLoading,
     data: cronhooks,
     refetch: refetchcronhooks,
-  } = useQuery(["cronhooks"], () => getAllHooks(accessToken), {
+  } = useQuery(['cronhooks'], () => getAllHooks(accessToken), {
     refetchInterval: 10000,
   });
-
 
   useEffect(() => {
     appState.setCronhooks(cronhooks);
@@ -50,14 +49,14 @@ export default function Main() {
   } else {
     return (
       <Center style={{ marginTop: 300, fontSize: 50 }}>
-        {os === "macos" ? (
+        {os === 'macos' ? (
           <>
-            <Kbd style={{ fontSize: 50 }}>⌘</Kbd> +{" "}
+            <Kbd style={{ fontSize: 50 }}>⌘</Kbd> +{' '}
             <Kbd style={{ fontSize: 50 }}>k</Kbd>
           </>
         ) : (
           <>
-            <Kbd style={{ fontSize: 50 }}>ctrl</Kbd> +{" "}
+            <Kbd style={{ fontSize: 50 }}>ctrl</Kbd> +{' '}
             <Kbd style={{ fontSize: 50 }}>k</Kbd>
           </>
         )}

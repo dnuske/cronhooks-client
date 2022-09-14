@@ -1,27 +1,27 @@
-import { Door, Search, Webhook } from "tabler-icons-react";
-import { SpotlightProvider } from "@mantine/spotlight";
-import AppState from "../services/state";
+import { Door, Search, Webhook } from 'tabler-icons-react';
+import { SpotlightProvider } from '@mantine/spotlight';
+import AppState from '../services/state';
 
 export default function SpotlightActions({ children }) {
   let appState = AppState.useContainer();
 
   const spotlightActions = [
     {
-      title: "Add a cronhook",
+      title: 'Add a cronhook',
       // description: 'Add a new cron hook',
-      onTrigger: () => appState.openGlobalModal("create-cronhook"),
+      onTrigger: () => appState.openGlobalModal('create-cronhook'),
       icon: <Webhook size={18} />,
     },
     {
-      title: "Add a one-time cronhook",
+      title: 'Add a one-time cronhook',
       // description: 'Add a new cron hook',
-      onTrigger: () => appState.openGlobalModal("create-onetime-cronhook"),
+      onTrigger: () => appState.openGlobalModal('create-onetime-cronhook'),
       icon: <Webhook size={18} />,
     },
     {
-      title: "Change password",
+      title: 'Change password',
       // description: 'Change your authentication password',
-      onTrigger: () => appState.openGlobalModal("reset-password"),
+      onTrigger: () => appState.openGlobalModal('reset-password'),
       icon: <Door size={18} />,
     },
   ];
@@ -31,7 +31,7 @@ export default function SpotlightActions({ children }) {
       actions={spotlightActions}
       searchIcon={<Search size={18} />}
       searchPlaceholder="Search..."
-      shortcut={["mod + P", "mod + K", "/"]}
+      shortcut={['mod + P', 'mod + K', '/']}
       nothingFoundMessage="Nothing found..."
     >
       {children}

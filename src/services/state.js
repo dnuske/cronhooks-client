@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { createContainer } from "unstated-next";
+import { useState } from 'react';
+import { createContainer } from 'unstated-next';
 
 export function useAppState() {
   // modal management

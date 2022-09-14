@@ -1,8 +1,8 @@
-import { Box, useMantineTheme, Tabs, Space, Paper } from "@mantine/core";
-import StyledTabs from "./AuthTabs";
-import { useState } from "react";
-import Login from "./Login";
-import Signup from "./Signup";
+import { Box, useMantineTheme, Tabs, Space, Paper } from '@mantine/core';
+import StyledTabs from './AuthTabs';
+import { useState } from 'react';
+import Login from './Login';
+import Signup from './Signup';
 
 export default function AuthBox() {
   const theme = useMantineTheme();
