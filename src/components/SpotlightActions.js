@@ -1,8 +1,8 @@
-import {Door, Search, Webhook} from "tabler-icons-react";
-import {SpotlightProvider} from "@mantine/spotlight";
-import AppState from "../services/state";
+import { Door, Search, Webhook } from 'tabler-icons-react';
+import { SpotlightProvider } from '@mantine/spotlight';
+import AppState from '../services/state';
 
-export default function SpotlightActions({children}) {
+export default function SpotlightActions({ children }) {
   let appState = AppState.useContainer();
 
   const spotlightActions = [
@@ -31,11 +31,10 @@ export default function SpotlightActions({children}) {
       actions={spotlightActions}
       searchIcon={<Search size={18} />}
       searchPlaceholder="Search..."
-      shortcut = {['mod + P', 'mod + K', '/']}
-      nothingFoundMessage="Nothing found...">
+      shortcut={['mod + P', 'mod + K', '/']}
+      nothingFoundMessage="Nothing found..."
+    >
       {children}
     </SpotlightProvider>
-  )
+  );
 }
-
-

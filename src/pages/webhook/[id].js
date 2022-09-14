@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useLocalStorage } from "@mantine/hooks";
-import { Edit, Trash } from "tabler-icons-react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useLocalStorage } from '@mantine/hooks';
+import { Edit, Trash } from 'tabler-icons-react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Center,
   Container,
@@ -14,15 +13,15 @@ import {
   Paper,
   Stack,
   Text,
-} from "@mantine/core";
-import { useModals } from "@mantine/modals";
+} from '@mantine/core';
+import { useModals } from '@mantine/modals';
 
-import { deleteHook, getHook, getHookHits } from "../../services/api";
-import EditCronhook from "../../components/actions/EditCronhook";
+import { deleteHook, getHook, getHookHits } from '../../services/api';
+import EditCronhook from '../../components/actions/EditCronhook';
 
 const WebhookId = () => {
   const router = useRouter();
-  const [accessToken] = useLocalStorage({ key: "access-token" });
+  const [accessToken] = useLocalStorage({ key: 'access-token' });
   const [openedEditModal, setOpenedEditModal] = useState(false);
 
   const modals = useModals();
@@ -33,13 +32,13 @@ const WebhookId = () => {
     isLoading: loadingHook,
     data: hook,
     refetch: refetchHook,
-  } = useQuery(["cronhook"], () => getHook(accessToken, id));
+  } = useQuery(['cronhook'], () => getHook(accessToken, id));
 
   const {
     isLoading: loadingHits,
     data: hookHits,
     refetch: refetchHits,
-  } = useQuery(["hits"], () => getHookHits(accessToken, id));
+  } = useQuery(['hits'], () => getHookHits(accessToken, id));
 
   useEffect(() => {
     refetchHook();
@@ -48,18 +47,18 @@ const WebhookId = () => {
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
-      title: "Delete this hook",
+      title: 'Delete this hook',
       centered: true,
       children: (
         <Text size="sm">
           Are you sure you want to delete this hook? This action is irreversible
         </Text>
       ),
-      labels: { confirm: "Delete hook", cancel: "No don't delete it" },
-      confirmProps: { color: "red" },
+      labels: { confirm: 'Delete hook', cancel: "No don't delete it" },
+      confirmProps: { color: 'red' },
       onConfirm: () => {
         deleteHook(accessToken, id);
-        router.push("/");
+        router.push('/');
       },
     });
 
@@ -73,7 +72,7 @@ const WebhookId = () => {
 
   if (hook && hookHits) {
     return (
-      <Container size={"md"}>
+      <Container size={'md'}>
         <Paper shadow="xs" p="md">
           <Grid>
             <Grid.Col span={7}>
@@ -83,7 +82,7 @@ const WebhookId = () => {
               <Edit
                 onClick={() => setOpenedEditModal(true)}
                 style={{
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 }}
               />
             </Grid.Col>
@@ -91,7 +90,7 @@ const WebhookId = () => {
               <Trash
                 onClick={openDeleteModal}
                 style={{
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 }}
               />
             </Grid.Col>

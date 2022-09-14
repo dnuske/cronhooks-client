@@ -2,41 +2,51 @@ import {
   Button,
   Group,
   PasswordInput,
-  Space, LoadingOverlay, Select, Input, TextInput, Box
+  Space,
+  LoadingOverlay,
+  Select,
+  Input,
+  TextInput,
+  Box,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import {ArrowBigRight} from "tabler-icons-react";
-import {useCreateHookMutation, useResetPassMutation} from "../../services/mutations";
-import {useLocalStorage} from "@mantine/hooks";
-import {DatePicker, TimeInput} from "@mantine/dates";
-
+import { ArrowBigRight } from 'tabler-icons-react';
+import {
+  useCreateHookMutation,
+  useResetPassMutation,
+} from '../../services/mutations';
+import { useLocalStorage } from '@mantine/hooks';
+import { DatePicker, TimeInput } from '@mantine/dates';
 
 export default function CreateCronhook() {
-
   const [accessToken] = useLocalStorage({ key: 'access-token' });
 
   const createHookMutation = useCreateHookMutation();
 
   const form = useForm({
-    initialValues:{
-      "method": "GET",
-      "url": "",
+    initialValues: {
+      method: 'GET',
+      url: '',
       // "body": "string",
-      "cron": "",
+      cron: '',
       // "headers": {},
       // "last_hit": "string",
     },
 
     validate: {
-      "method": value => ['GET', 'POST'].includes(value) ? null : "Not a valid HTTP verb",
+      method: (value) =>
+        ['GET', 'POST'].includes(value) ? null : 'Not a valid HTTP verb',
       // "url": "string",
       // "cron": "string",
     },
   });
 
-  return (<div style={{position: 'relative'}} >
-    <LoadingOverlay visible={createHookMutation.isLoading} />
-      <form onSubmit={form.onSubmit((values) => createHookMutation.mutate(values))}>
+  return (
+    <div style={{ position: 'relative' }}>
+      <LoadingOverlay visible={createHookMutation.isLoading} />
+      <form
+        onSubmit={form.onSubmit((values) => createHookMutation.mutate(values))}
+      >
         <Select
           label="HTTP method"
           placeholder="Pick one"
@@ -55,16 +65,19 @@ export default function CreateCronhook() {
           {...form.getInputProps('url')}
         />
         <Space h="xs" />
-        <Box sx={(theme => ({display: 'flex', alignItems: 'flex-end', gap: 8}))}>
-          <DatePicker placeholder="Pick date" label="Dispatch at" withAsterisk />
-          <TimeInput
-            defaultValue={new Date()}
+        <Box
+          sx={(theme) => ({ display: 'flex', alignItems: 'flex-end', gap: 8 })}
+        >
+          <DatePicker
+            placeholder="Pick date"
+            label="Dispatch at"
             withAsterisk
           />
+          <TimeInput defaultValue={new Date()} withAsterisk />
         </Box>
         <Space h="xs" />
         <Group position="right" mt="md">
-          <Button type="submit" >Schedule a single call</Button>
+          <Button type="submit">Schedule a single call</Button>
         </Group>
       </form>
     </div>

@@ -1,31 +1,31 @@
-import { useLocalStorage } from "@mantine/hooks";
-import { useMutation } from "@tanstack/react-query";
-import api from "./api";
-import errorNotifications from "./notifications/error";
-import success from "./notifications/success";
+import { useLocalStorage } from '@mantine/hooks';
+import { useMutation } from '@tanstack/react-query';
+import api from './api';
+import errorNotifications from './notifications/error';
+import success from './notifications/success';
 
 export function useAuthMutation() {
   const [accessToken, setAccessToken] = useLocalStorage({
-    key: "access-token",
+    key: 'access-token',
   });
 
   const mutation = useMutation(api.authenticate, {
     onError: (error, variables, context) => {
       try {
-        if (error.response.data.detail === "LOGIN_BAD_CREDENTIALS") {
+        if (error.response.data.detail === 'LOGIN_BAD_CREDENTIALS') {
           errorNotifications.displayBadCredentialErrorMessage();
           return;
         }
       } catch (e) {
         // do nothing
       }
-      console.log("error", error);
+      console.log('error', error);
 
       errorNotifications.displayDefaultErrorMessage();
     },
     onSuccess: (data, variables, context) => {
       // store access_token in localstorage
-      console.log(" useAuthMutation success", data);
+      console.log(' useAuthMutation success', data);
       setAccessToken(data.data.access_token);
     },
   });
@@ -38,14 +38,14 @@ export function useRegisterMutation() {
   const registerMutation = useMutation(api.register, {
     onError: (error, variables, context) => {
       try {
-        if (error.response.data.detail === "REGISTER_USER_ALREADY_EXISTS") {
+        if (error.response.data.detail === 'REGISTER_USER_ALREADY_EXISTS') {
           errorNotifications.displayUserAlreadyExistsErrorMessage();
           return;
         }
       } catch (e) {
         // do nothing
       }
-      console.log("error", error);
+      console.log('error', error);
 
       errorNotifications.displayDefaultErrorMessage();
     },
@@ -62,7 +62,7 @@ export function useRegisterMutation() {
 export function useForgotPassMutation() {
   const mutation = useMutation(api.forgotPass, {
     onError: (error, variables, context) => {
-      console.log("error", error);
+      console.log('error', error);
       errorNotifications.displayDefaultErrorMessage();
     },
     onSuccess: (data, variables, context) => {
@@ -76,7 +76,7 @@ export function useForgotPassMutation() {
 export function useResetPassMutation() {
   const mutation = useMutation(api.resetPass, {
     onError: (error, variables, context) => {
-      console.log("error", error);
+      console.log('error', error);
       errorNotifications.displayDefaultErrorMessage();
     },
     onSuccess: (data, variables, context) => {
@@ -88,12 +88,12 @@ export function useResetPassMutation() {
 }
 
 export function useCreateHookMutation() {
-  const [accessToken] = useLocalStorage({ key: "access-token" });
+  const [accessToken] = useLocalStorage({ key: 'access-token' });
   const mutation = useMutation(
     (userData) => api.createHook(accessToken, userData),
     {
       onError: (error, variables, context) => {
-        console.log("error", error);
+        console.log('error', error);
         errorNotifications.displayDefaultErrorMessage();
       },
       onSuccess: (data, variables, context) => {
@@ -106,12 +106,12 @@ export function useCreateHookMutation() {
 }
 
 export function useUpdateHookMutation() {
-  const [accessToken] = useLocalStorage({ key: "access-token" });
+  const [accessToken] = useLocalStorage({ key: 'access-token' });
   const mutation = useMutation(
     (userData, id) => api.updateHook(accessToken, userData, id),
     {
       onError: (error, variables, context) => {
-        console.log("error", error);
+        console.log('error', error);
         errorNotifications.displayDefaultErrorMessage();
       },
       onSuccess: (data, variables, context) => {

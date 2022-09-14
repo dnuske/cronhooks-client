@@ -10,18 +10,25 @@ export default function StyledTabs(props) {
         },
         tabsListWrapper: {
           width: '100%',
-          display: 'flex'
+          display: 'flex',
         },
         tabsList: {
           width: '100%',
-          display: 'flex'
-
+          display: 'flex',
         },
         tabControl: {
           flexGrow: 1,
-          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-          color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
-          border: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[4]}`,
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+          color:
+            theme.colorScheme === 'dark'
+              ? theme.colors.dark[0]
+              : theme.colors.gray[9],
+          border: `1px solid ${
+            theme.colorScheme === 'dark'
+              ? theme.colors.dark[6]
+              : theme.colors.gray[4]
+          }`,
           fontSize: theme.fontSizes.md,
           padding: `${theme.spacing.lg}px ${theme.spacing.xl}px`,
 
@@ -53,4 +60,3 @@ export default function StyledTabs(props) {
     />
   );
 }
-

@@ -6,28 +6,28 @@ import {
   Select,
   TextInput,
   Modal,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useEffect } from "react";
-import { ArrowBigRight } from "tabler-icons-react";
-import { useUpdateHookMutation } from "../../services/mutations";
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { useEffect } from 'react';
+import { ArrowBigRight } from 'tabler-icons-react';
+import { useUpdateHookMutation } from '../../services/mutations';
 
 export default function EditCronhook({ setOpened, opened, hook }) {
   const updateHookMutation = useUpdateHookMutation();
 
   const form = useForm({
     initialValues: {
-      method: "",
-      url: "",
-      cron: "",
-      body: "",
+      method: '',
+      url: '',
+      cron: '',
+      body: '',
     },
 
     validate: {
       method: (value) =>
-        ["GET", "POST"].includes(value) ? null : "Not a valid HTTP verb",
-      url: "string",
-      cron: "string",
+        ['GET', 'POST'].includes(value) ? null : 'Not a valid HTTP verb',
+      url: 'string',
+      cron: 'string',
     },
   });
 
@@ -36,7 +36,7 @@ export default function EditCronhook({ setOpened, opened, hook }) {
       method: hook.method,
       url: hook.url,
       cron: hook.cron,
-      body: "",
+      body: '',
     });
   }, [opened, hook]);
 
@@ -46,7 +46,7 @@ export default function EditCronhook({ setOpened, opened, hook }) {
       onClose={() => setOpened(false)}
       title="Edit Cronhook"
     >
-      <div style={{ position: "relative" }}>
+      <div style={{ position: 'relative' }}>
         <LoadingOverlay visible={updateHookMutation.isLoading} />
         <form
           onSubmit={form.onSubmit((values) => {
@@ -59,10 +59,10 @@ export default function EditCronhook({ setOpened, opened, hook }) {
             placeholder="Pick one"
             value={hook.method}
             data={[
-              { value: "GET", label: "GET" },
-              { value: "POST", label: "POST" },
+              { value: 'GET', label: 'GET' },
+              { value: 'POST', label: 'POST' },
             ]}
-            {...form.getInputProps("method")}
+            {...form.getInputProps('method')}
           />
           <Space h="xs" />
           <TextInput
@@ -71,7 +71,7 @@ export default function EditCronhook({ setOpened, opened, hook }) {
             label="URL"
             description="This url will be hit every time the time specified in cron config is met"
             required
-            {...form.getInputProps("url")}
+            {...form.getInputProps('url')}
           />
           <Space h="xs" />
           <TextInput
@@ -79,12 +79,12 @@ export default function EditCronhook({ setOpened, opened, hook }) {
             placeholder="0 1 * * *"
             label="Crontab configuration"
             required
-            {...form.getInputProps("cron")}
+            {...form.getInputProps('cron')}
           />
           <Space h="xs" />
           <Group position="right" mt="md">
             <Button type="submit">
-              <ArrowBigRight size={28} strokeWidth={2} color={"white"} />
+              <ArrowBigRight size={28} strokeWidth={2} color={'white'} />
             </Button>
           </Group>
         </form>
