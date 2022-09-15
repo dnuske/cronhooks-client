@@ -38,7 +38,9 @@ const WebhookId = () => {
     isLoading: loadingHits,
     data: hookHits,
     refetch: refetchHits,
-  } = useQuery(['hits'], () => getHookHits(accessToken, id));
+  } = useQuery(['hits'], () => getHookHits(accessToken, id), {
+    refetchInterval: 10000,
+  });
 
   useEffect(() => {
     refetchHook();
@@ -117,6 +119,7 @@ const WebhookId = () => {
           setOpened={setOpenedEditModal}
           opened={openedEditModal}
           hook={hook}
+          refetchHook={refetchHook}
         />
       </Container>
     );

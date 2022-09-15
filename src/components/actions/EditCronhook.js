@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { ArrowBigRight } from 'tabler-icons-react';
 import { useUpdateHookMutation } from '../../services/mutations';
 
-export default function EditCronhook({ setOpened, opened, hook }) {
+export default function EditCronhook({ setOpened, opened, hook, refetchHook }) {
   const updateHookMutation = useUpdateHookMutation();
 
   const form = useForm({
@@ -50,8 +50,9 @@ export default function EditCronhook({ setOpened, opened, hook }) {
         <LoadingOverlay visible={updateHookMutation.isLoading} />
         <form
           onSubmit={form.onSubmit((values) => {
-            updateHookMutation.mutate(values, hook.id);
+            updateHookMutation.mutate({ values, hookId: hook.id });
             setOpened(false);
+            refetchHook();
           })}
         >
           <Select

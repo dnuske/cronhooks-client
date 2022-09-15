@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { getAllHooks } from '../../services/api';
 import { useQuery } from '@tanstack/react-query';
 import CronhookListItem from './CronhookListItem';
-import Link from 'next/link';
 
 export default function Main() {
   const os = useOs();
@@ -13,17 +12,16 @@ export default function Main() {
   let appState = AppState.useContainer();
   const [accessToken] = useLocalStorage({ key: 'access-token' });
 
-  // console.log(" --- ", accessToken)
-
   const {
     isLoading,
     data: cronhooks,
     refetch: refetchcronhooks,
   } = useQuery(['cronhooks'], () => getAllHooks(accessToken), {
-    refetchInterval: 10000,
+    refetchInterval: 1000,
   });
 
   useEffect(() => {
+    refetchcronhooks();
     appState.setCronhooks(cronhooks);
   }, [cronhooks]);
 

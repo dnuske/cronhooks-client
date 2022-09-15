@@ -70,11 +70,15 @@ export const getHookHits = (accessToken, id) => {
     .then((r) => r.data);
 };
 
-export const updateHook = (accessToken, userData, id) => {
+export const updateHook = (accessToken, data) => {
   return axios
-    .put(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, userData, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
+    .put(
+      `${process.env.NEXT_PUBLIC_API_HOST}/hook/${data.hookId}`,
+      data.values,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    )
     .then((r) => r.data);
 };
 

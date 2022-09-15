@@ -9,10 +9,9 @@ import {
 } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import Head from 'next/head';
-
+import AppState from '../services/state';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NotificationsProvider } from '@mantine/notifications';
-import AppState from '../services/state';
 import Link from 'next/link';
 import { useLocalStorage, useOs } from '@mantine/hooks';
 
@@ -22,6 +21,7 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {
   const [accessToken] = useLocalStorage({ key: 'access-token' });
   const os = useOs();
+
   return (
     <>
       <Head>
@@ -65,28 +65,26 @@ function MyApp({ Component, pageProps }) {
                     <Link href="/">
                       <div style={{ fontSize: 50 }}>cronhooks</div>
                     </Link>
-                    {accessToken && (
-                      <Badge
-                        ml={20}
-                        size="xl"
-                        radius="xl"
-                        variant="gradient"
-                        gradient={{ from: 'teal', to: 'blue', deg: 60 }}
-                      >
-                        {os === 'macos' ? (
-                          <>
-                            <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{' '}
-                            <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
-                          </>
-                        ) : (
-                          <>
-                            <Kbd style={{ paddingBottom: 1 }}>ctrl</Kbd> +
-                            <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
-                          </>
-                        )}
-                        &nbsp; to open the menu
-                      </Badge>
-                    )}
+                    <Badge
+                      ml={20}
+                      size="xl"
+                      radius="xl"
+                      variant="gradient"
+                      gradient={{ from: 'teal', to: 'blue', deg: 60 }}
+                    >
+                      {os === 'macos' ? (
+                        <>
+                          <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{' '}
+                          <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
+                        </>
+                      ) : (
+                        <>
+                          <Kbd style={{ paddingBottom: 1 }}>ctrl</Kbd> +
+                          <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
+                        </>
+                      )}
+                      &nbsp; to open the menu
+                    </Badge>
                   </Center>
                   <Component {...pageProps} />
                 </Container>
