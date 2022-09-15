@@ -63,28 +63,32 @@ function MyApp({ Component, pageProps }) {
                 <Container size="md" px="md">
                   <Center>
                     <Link href="/">
-                      <div style={{ fontSize: 50 }}>cronhooks</div>
+                      <div style={{ fontSize: 50, cursor: 'pointer' }}>
+                        cronhooks
+                      </div>
                     </Link>
-                    <Badge
-                      ml={20}
-                      size="xl"
-                      radius="xl"
-                      variant="gradient"
-                      gradient={{ from: 'teal', to: 'blue', deg: 60 }}
-                    >
-                      {os === 'macos' ? (
-                        <>
-                          <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{' '}
-                          <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
-                        </>
-                      ) : (
-                        <>
-                          <Kbd style={{ paddingBottom: 1 }}>ctrl</Kbd> +
-                          <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
-                        </>
-                      )}
-                      &nbsp; to open the menu
-                    </Badge>
+                    {true && (
+                      <Badge
+                        ml={20}
+                        size="xl"
+                        radius="xl"
+                        variant="gradient"
+                        gradient={{ from: 'teal', to: 'blue', deg: 60 }}
+                      >
+                        {os === 'macos' ? (
+                          <>
+                            <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{' '}
+                            <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
+                          </>
+                        ) : (
+                          <>
+                            <Kbd style={{ paddingBottom: 1 }}>ctrl</Kbd> +
+                            <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
+                          </>
+                        )}
+                        &nbsp; to open the menu
+                      </Badge>
+                    )}
                   </Center>
                   <Component {...pageProps} />
                 </Container>

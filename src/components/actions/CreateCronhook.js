@@ -70,7 +70,6 @@ export default function CreateCronhook() {
           placeholder="0 1 * * *"
           label="Crontab configuration"
           required
-          {...form.getInputProps('cron')}
         />
         <Space h="xs" />
         <Group position="right" mt="md">

@@ -26,8 +26,6 @@ export default function EditCronhook({ setOpened, opened, hook, refetchHook }) {
     validate: {
       method: (value) =>
         ['GET', 'POST'].includes(value) ? null : 'Not a valid HTTP verb',
-      url: 'string',
-      cron: 'string',
     },
   });
 

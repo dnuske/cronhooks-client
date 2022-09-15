@@ -11,6 +11,21 @@ export const authenticate = (userData) => {
   });
 };
 
+axios.interceptors.response.use(
+  function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+  },
+  function (error) {
+    if (error.response.status === 401) {
+      console.log('401 error token borrado');
+      localStorage.removeItem('access-token');
+      window.location.href = '/';
+    }
+  }
+);
+
 export const register = (userData) => {
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_HOST}/auth/register`,
@@ -26,7 +41,6 @@ export const forgotPass = (userData) => {
 };
 
 export const resetPass = (userData) => {
-  // userData['token'] = localStorage.getItem('access-token');
   delete userData['password2'];
   return axios.post(
     `${process.env.NEXT_PUBLIC_API_HOST}/auth/reset-password`,
@@ -45,13 +59,13 @@ export const getAllHooks = async (accessToken) => {
     .get(`${process.env.NEXT_PUBLIC_API_HOST}/hook/`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-    .then((r) => r.data)
-    .catch((e) => {
-      if (e.response.status === 401) {
-        localStorage.removeItem('access-token');
-        window.location.href = '/';
-      }
-    });
+    .then((r) => r.data);
+  // .catch((e) => {
+  //   if (e.response.status === 401) {
+  //     localStorage.removeItem('access-token');
+  //     window.location.href = '/';
+  //   }
+  // });
 };
 
 export const getHook = (accessToken, id) => {
@@ -87,7 +101,10 @@ export const deleteHook = (accessToken, id) => {
     .delete(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-    .then((r) => r.data);
+    .then((r) => {
+      console.log(r.data);
+      return r.data;
+    });
 };
 
 export default {

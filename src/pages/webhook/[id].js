@@ -18,6 +18,7 @@ import { useModals } from '@mantine/modals';
 
 import { deleteHook, getHook, getHookHits } from '../../services/api';
 import EditCronhook from '../../components/actions/EditCronhook';
+import HitList from '../../components/display/HitList';
 
 const WebhookId = () => {
   const router = useRouter();
@@ -103,13 +104,20 @@ const WebhookId = () => {
             <p>URL: {hook.url}</p>
             <p>Method: {hook.method}</p>
             <p>Cron: {hook.cron}</p>
-            <p>Hits: </p>
+          </Stack>
+        </Paper>
+        <Paper shadow="xs" p="md" mt="md">
+          <p>Hits: </p>
+          <Stack
+            align="flex-start"
+            spacing="xs"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             {hookHits.length > 0 ? (
-              hookHits.map((hit, i) => (
-                <p key={`p${i}`}>
-                  {hit.started_at} {hit.response_status} - {hit.response}
-                </p>
-              ))
+              <HitList hookHits={hookHits} />
             ) : (
               <p>No hits yet</p>
             )}
@@ -119,7 +127,7 @@ const WebhookId = () => {
           setOpened={setOpenedEditModal}
           opened={openedEditModal}
           hook={hook}
-          refetchHook={refetchHook}
+          refetchHook={() => refetchHook()}
         />
       </Container>
     );
