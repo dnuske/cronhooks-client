@@ -17,7 +17,7 @@ export default function Main() {
     data: cronhooks,
     refetch: refetchcronhooks,
   } = useQuery(['cronhooks'], () => getAllHooks(accessToken), {
-    refetchInterval: 1000,
+    refetchInterval: 30000,
   });
 
   useEffect(() => {

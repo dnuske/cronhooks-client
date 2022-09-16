@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NotificationsProvider } from '@mantine/notifications';
 import Link from 'next/link';
 import { useLocalStorage, useOs } from '@mantine/hooks';
+import NonSSRWrapper from "../components/architecture/NonSSRWrapper";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -23,7 +24,7 @@ function MyApp({ Component, pageProps }) {
   const os = useOs();
 
   return (
-    <>
+    <NonSSRWrapper>
       <Head>
         <title>Cronhooks</title>
         <meta
@@ -74,13 +75,13 @@ function MyApp({ Component, pageProps }) {
                     >
                       {os === 'macos' ? (
                         <>
-                          <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{' '}
-                          <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>⌘</Kbd> +{' '}
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>k</Kbd>
                         </>
                       ) : (
                         <>
-                          <Kbd style={{ paddingBottom: 1 }}>ctrl</Kbd> +
-                          <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>ctrl</Kbd> +
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>k</Kbd>
                         </>
                       )}
                       &nbsp; to open the menu
@@ -93,7 +94,7 @@ function MyApp({ Component, pageProps }) {
           </MantineProvider>
         </QueryClientProvider>
       </AppState.Provider>
-    </>
+    </NonSSRWrapper>
   );
 }
 
