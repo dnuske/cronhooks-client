@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NotificationsProvider } from '@mantine/notifications';
 import Link from 'next/link';
 import { useLocalStorage, useOs } from '@mantine/hooks';
+import NonSSRWrapper from '../components/architecture/NonSSRWrapper';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -23,7 +24,7 @@ function MyApp({ Component, pageProps }) {
   const os = useOs();
 
   return (
-    <>
+    <NonSSRWrapper>
       <Head>
         <title>Cronhooks</title>
         <meta
@@ -67,28 +68,36 @@ function MyApp({ Component, pageProps }) {
                         cronhooks
                       </div>
                     </Link>
-                    {true && (
-                      <Badge
-                        ml={20}
-                        size="xl"
-                        radius="xl"
-                        variant="gradient"
-                        gradient={{ from: 'teal', to: 'blue', deg: 60 }}
-                      >
-                        {os === 'macos' ? (
-                          <>
-                            <Kbd style={{ paddingBottom: 1 }}>⌘</Kbd> +{' '}
-                            <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
-                          </>
-                        ) : (
-                          <>
-                            <Kbd style={{ paddingBottom: 1 }}>ctrl</Kbd> +
-                            <Kbd style={{ paddingBottom: 1 }}>k</Kbd>
-                          </>
-                        )}
-                        &nbsp; to open the menu
-                      </Badge>
-                    )}
+                    <Badge
+                      ml={20}
+                      size="xl"
+                      radius="xl"
+                      variant="gradient"
+                      gradient={{ from: 'teal', to: 'blue', deg: 60 }}
+                    >
+                      {os === 'macos' ? (
+                        <>
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
+                            ⌘
+                          </Kbd>{' '}
+                          +{' '}
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
+                            k
+                          </Kbd>
+                        </>
+                      ) : (
+                        <>
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
+                            ctrl
+                          </Kbd>{' '}
+                          +
+                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
+                            k
+                          </Kbd>
+                        </>
+                      )}
+                      &nbsp; to open the menu
+                    </Badge>
                   </Center>
                   <Component {...pageProps} />
                 </Container>
@@ -97,7 +106,7 @@ function MyApp({ Component, pageProps }) {
           </MantineProvider>
         </QueryClientProvider>
       </AppState.Provider>
-    </>
+    </NonSSRWrapper>
   );
 }
 
