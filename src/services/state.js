@@ -18,6 +18,9 @@ export function useAppState() {
   // cronhooks
   let [cronhooks, setCronhooks] = useState([]);
 
+  // selected cronhook
+  let [selectedHook, setSelectedHook] = useState(null);
+
   return {
     globalModalOpen,
     openGlobalModal,
@@ -25,6 +28,8 @@ export function useAppState() {
     globalModalWhich,
     cronhooks,
     setCronhooks,
+    selectedHook,
+    setSelectedHook,
   };
 }
 

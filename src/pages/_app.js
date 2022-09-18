@@ -68,36 +68,46 @@ function MyApp({ Component, pageProps }) {
                         cronhooks
                       </div>
                     </Link>
-                    <Badge
-                      ml={20}
-                      size="xl"
-                      radius="xl"
-                      variant="gradient"
-                      gradient={{ from: 'teal', to: 'blue', deg: 60 }}
-                    >
-                      {os === 'macos' ? (
-                        <>
-                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
-                            ⌘
-                          </Kbd>{' '}
-                          +{' '}
-                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
-                            k
-                          </Kbd>
-                        </>
-                      ) : (
-                        <>
-                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
-                            ctrl
-                          </Kbd>{' '}
-                          +
-                          <Kbd style={{ bottom: '3px', position: 'relative' }}>
-                            k
-                          </Kbd>
-                        </>
-                      )}
-                      &nbsp; to open the menu
-                    </Badge>
+                    {accessToken && (
+                      <Badge
+                        ml={20}
+                        size="xl"
+                        radius="xl"
+                        variant="gradient"
+                        gradient={{ from: 'teal', to: 'blue', deg: 60 }}
+                      >
+                        {os === 'macos' ? (
+                          <>
+                            <Kbd
+                              style={{ bottom: '3px', position: 'relative' }}
+                            >
+                              ⌘
+                            </Kbd>{' '}
+                            +{' '}
+                            <Kbd
+                              style={{ bottom: '3px', position: 'relative' }}
+                            >
+                              k
+                            </Kbd>
+                          </>
+                        ) : (
+                          <>
+                            <Kbd
+                              style={{ bottom: '3px', position: 'relative' }}
+                            >
+                              ctrl
+                            </Kbd>{' '}
+                            +
+                            <Kbd
+                              style={{ bottom: '3px', position: 'relative' }}
+                            >
+                              k
+                            </Kbd>
+                          </>
+                        )}
+                        &nbsp; to open the menu
+                      </Badge>
+                    )}
                   </Center>
                   <Component {...pageProps} />
                 </Container>

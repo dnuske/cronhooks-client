@@ -5,7 +5,7 @@ import AppState from '../services/state';
 export default function SpotlightActions({ children }) {
   let appState = AppState.useContainer();
 
-  const spotlightActions = [
+  const spotlightActionsMain = [
     {
       title: 'Add a cronhook',
       // description: 'Add a new cron hook',
@@ -26,9 +26,26 @@ export default function SpotlightActions({ children }) {
     },
   ];
 
+  const spotlightActionsHookPage = [
+    {
+      title: 'Edit current cronhook',
+      // description: 'Edit the current cron hook',
+      onTrigger: () => appState.openGlobalModal('edit-cronhook'),
+      icon: <Webhook size={18} />,
+    },
+    {
+      title: 'Change password',
+      // description: 'Change your authentication password',
+      onTrigger: () => appState.openGlobalModal('reset-password'),
+      icon: <Door size={18} />,
+    },
+  ];
+
   return (
     <SpotlightProvider
-      actions={spotlightActions}
+      actions={
+        appState.selectedHook ? spotlightActionsHookPage : spotlightActionsMain
+      }
       searchIcon={<Search size={18} />}
       searchPlaceholder="Search..."
       shortcut={['mod + P', 'mod + K', '/']}

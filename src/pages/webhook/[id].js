@@ -15,13 +15,17 @@ import {
   Text,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-
+import AppState from '../../services/state';
 import { deleteHook, getHook, getHookHits } from '../../services/api';
 import EditCronhook from '../../components/actions/EditCronhook';
 import HitList from '../../components/display/HitList';
+import Authenticated from '../../components/auth/Authenticated';
+import GlobalModal from '../../components/architecture/GlobalModal';
+import EditAction from '../../components/actions/EditAction';
 
 const WebhookId = () => {
   const router = useRouter();
+  let appState = AppState.useContainer();
   const [accessToken] = useLocalStorage({ key: 'access-token' });
   const [openedEditModal, setOpenedEditModal] = useState(false);
 
@@ -43,9 +47,12 @@ const WebhookId = () => {
     refetchInterval: 10000,
   });
 
+  appState.setSelectedHook(hook);
+
   useEffect(() => {
     refetchHook();
     refetchHits();
+    appState.setSelectedHook(hook);
   }, [id]);
 
   const openDeleteModal = () =>
@@ -75,61 +82,64 @@ const WebhookId = () => {
 
   if (hook && hookHits) {
     return (
-      <Container size={'md'}>
-        <Paper shadow="xs" p="md">
-          <Grid>
-            <Grid.Col span={7}>
-              <Link href="/">{`<- Back`}</Link>
-            </Grid.Col>
-            <Grid.Col span={1} offset={3}>
-              <Edit
-                onClick={() => setOpenedEditModal(true)}
-                style={{
-                  cursor: 'pointer',
-                }}
-              />
-            </Grid.Col>
-            <Grid.Col span={1}>
-              <Trash
-                onClick={openDeleteModal}
-                style={{
-                  cursor: 'pointer',
-                }}
-              />
-            </Grid.Col>
-          </Grid>
-          <Divider my="sm" variant="dotted" />
-          <Stack align="flex-start" spacing="xs">
-            <p>Hook: {hook.id}</p>
-            <p>URL: {hook.url}</p>
-            <p>Method: {hook.method}</p>
-            <p>Cron: {hook.cron}</p>
-          </Stack>
-        </Paper>
-        <Paper shadow="xs" p="md" mt="md">
-          <p>Hits: </p>
-          <Stack
-            align="flex-start"
-            spacing="xs"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            {hookHits.length > 0 ? (
-              <HitList hookHits={hookHits} />
-            ) : (
-              <p>No hits yet</p>
-            )}
-          </Stack>
-        </Paper>
-        <EditCronhook
-          setOpened={setOpenedEditModal}
-          opened={openedEditModal}
-          hook={hook}
-          refetchHook={() => refetchHook()}
-        />
-      </Container>
+      <Authenticated>
+        <Container size={'md'}>
+          <Paper shadow="xs" p="md">
+            <Grid>
+              <Grid.Col span={7}>
+                <Link href="/">{`<- Back`}</Link>
+              </Grid.Col>
+              <Grid.Col span={1} offset={3}>
+                <Edit
+                  onClick={() => setOpenedEditModal(true)}
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                />
+              </Grid.Col>
+              <Grid.Col span={1}>
+                <Trash
+                  onClick={openDeleteModal}
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                />
+              </Grid.Col>
+            </Grid>
+            <Divider my="sm" variant="dotted" />
+            <Stack align="flex-start" spacing="xs">
+              <p>Hook: {hook.id}</p>
+              <p>URL: {hook.url}</p>
+              <p>Method: {hook.method}</p>
+              <p>Cron: {hook.cron}</p>
+            </Stack>
+          </Paper>
+          <Paper shadow="xs" p="md" mt="md">
+            <p>Hits: </p>
+            <Stack
+              align="flex-start"
+              spacing="xs"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {hookHits.length > 0 ? (
+                <HitList hookHits={hookHits} />
+              ) : (
+                <p>No hits yet</p>
+              )}
+            </Stack>
+          </Paper>
+          <EditAction
+            setOpened={setOpenedEditModal}
+            opened={openedEditModal}
+            hook={hook}
+            refetchHook={() => refetchHook()}
+          />
+        </Container>
+        <GlobalModal />
+      </Authenticated>
     );
   }
 };

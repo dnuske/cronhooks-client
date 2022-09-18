@@ -23,6 +23,7 @@ export default function Main() {
   useEffect(() => {
     refetchcronhooks();
     appState.setCronhooks(cronhooks);
+    appState.setSelectedHook(null);
   }, [cronhooks]);
 
   if (isLoading) {

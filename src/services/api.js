@@ -19,10 +19,10 @@ axios.interceptors.response.use(
   },
   function (error) {
     if (error.response.status === 401) {
-      console.log('401 error token borrado');
       localStorage.removeItem('access-token');
       window.location.href = '/';
     }
+    return Promise.reject(error);
   }
 );
 
@@ -60,12 +60,6 @@ export const getAllHooks = async (accessToken) => {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
     .then((r) => r.data);
-  // .catch((e) => {
-  //   if (e.response.status === 401) {
-  //     localStorage.removeItem('access-token');
-  //     window.location.href = '/';
-  //   }
-  // });
 };
 
 export const getHook = (accessToken, id) => {
@@ -101,10 +95,7 @@ export const deleteHook = (accessToken, id) => {
     .delete(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
-    .then((r) => {
-      console.log(r.data);
-      return r.data;
-    });
+    .catch((e) => console.log(e));
 };
 
 export default {
