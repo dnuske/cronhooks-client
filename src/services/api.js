@@ -91,11 +91,9 @@ export const updateHook = (accessToken, data) => {
 };
 
 export const deleteHook = (accessToken, id) => {
-  return axios
-    .delete(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-    .catch((e) => console.log(e));
+  return axios.delete(`${process.env.NEXT_PUBLIC_API_HOST}/hook/${id}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 };
 
 export default {
