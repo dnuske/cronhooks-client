@@ -1,4 +1,4 @@
-import { Center, Kbd, Loader, Paper, Stack } from '@mantine/core';
+import { Center, Container, Kbd, Loader, Paper, Stack } from '@mantine/core';
 import { useLocalStorage, useOs } from '@mantine/hooks';
 import AppState from '../../services/state';
 import { useEffect } from 'react';
@@ -35,13 +35,15 @@ export default function Main() {
   if (cronhooks.length > 0) {
     return (
       <Center>
-        <Paper shadow="xs" p="md">
-          <Stack align="flex-start" spacing="xs">
-            {cronhooks.map((cronhook, i) => (
-              <CronhookListItem key={`p${i}`} cronhook={cronhook} />
-            ))}
-          </Stack>
-        </Paper>
+        <Container size={'md'}>
+          <Paper shadow="xs" p="md">
+            <Stack align="flex-start" spacing="xs">
+              {cronhooks.map((cronhook, i) => (
+                <CronhookListItem key={`p${i}`} cronhook={cronhook} />
+              ))}
+            </Stack>
+          </Paper>
+        </Container>
       </Center>
     );
   } else {
