@@ -2,9 +2,7 @@ import { Text, Accordion } from '@mantine/core';
 import HitListItem from './HitListItem';
 
 const HitList = ({ hookHits }) => {
-  const newArray = hookHits.slice(0, 10).reverse();
-
-  const items = newArray.map((hook, i) => (
+  const items = hookHits.map((hook, i) => (
     <Accordion.Item label={<HitListItem hook={hook} />} key={hook.id}>
       {hook.response_data ? (
         <div dangerouslySetInnerHTML={{ __html: hook.response_data }}></div>
