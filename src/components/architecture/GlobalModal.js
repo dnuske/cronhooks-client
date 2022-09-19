@@ -3,12 +3,14 @@ import AppState from '../../services/state';
 import ResetPassword from '../actions/ResetPassword';
 import CreateCronhook from '../actions/CreateCronhook';
 import CreateOneTimeCronhook from '../actions/CreateOneTimeCronhook';
+import EditCronhook from '../actions/EditCronhook';
 
 export default function GlobalModal() {
   let appState = AppState.useContainer();
 
   let title;
   let aModal;
+
   switch (appState.globalModalWhich) {
     case 'reset-password':
       title = 'Reset your password';
@@ -21,6 +23,10 @@ export default function GlobalModal() {
     case 'create-onetime-cronhook':
       title = 'Create a one time hook call';
       aModal = <CreateOneTimeCronhook />;
+      break;
+    case 'edit-cronhook':
+      title = 'Edit this hook';
+      aModal = <EditCronhook />;
       break;
   }
 
