@@ -16,13 +16,13 @@ export default function Main() {
     isLoading,
     data: cronhooks,
     refetch: refetchcronhooks,
-  } = useQuery(['cronhooks'], () => getAllHooks(accessToken), {
-    refetchInterval: 30000,
-  });
+  } = useQuery(['cronhooks', appState.lastHookCreated], () =>
+    getAllHooks(accessToken)
+  );
 
   useEffect(() => {
-    refetchcronhooks();
     appState.setCronhooks(cronhooks);
+    appState.setSelectedHook(null);
   }, [cronhooks]);
 
   if (isLoading) {
