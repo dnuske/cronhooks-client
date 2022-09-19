@@ -35,12 +35,14 @@ const WebhookId = () => {
 
   const {
     isLoading: loadingHook,
+    isFetching: fetchingHook,
     data: hook,
     refetch: refetchHook,
   } = useQuery(['cronhook'], () => getHook(accessToken, id));
 
   const {
     isLoading: loadingHits,
+    isFetching: fetchingHits,
     data: hookHits,
     refetch: refetchHits,
   } = useQuery(['hits'], () => getHookHits(accessToken, id), {
@@ -72,76 +74,74 @@ const WebhookId = () => {
       },
     });
 
-  if (loadingHook || loadingHits) {
-    return (
-      <Center style={{ marginTop: 300, fontSize: 50 }}>
-        <Loader />
-      </Center>
-    );
-  }
-
-  if (hook && hookHits) {
-    return (
-      <Authenticated>
-        <Container size={'md'}>
-          <Paper shadow="xs" p="md">
-            <Grid>
-              <Grid.Col span={7}>
-                <Link href="/">{`<- Back`}</Link>
-              </Grid.Col>
-              <Grid.Col span={1} offset={3}>
-                <Edit
-                  onClick={() => setOpenedEditModal(true)}
-                  style={{
-                    cursor: 'pointer',
-                  }}
-                />
-              </Grid.Col>
-              <Grid.Col span={1}>
-                <Trash
-                  onClick={openDeleteModal}
-                  style={{
-                    cursor: 'pointer',
-                  }}
-                />
-              </Grid.Col>
-            </Grid>
-            <Divider my="sm" variant="dotted" />
-            <Stack align="flex-start" spacing="xs">
-              <p>Hook: {hook.id}</p>
-              <p>URL: {hook.url}</p>
-              <p>Method: {hook.method}</p>
-              <p>Cron: {hook.cron}</p>
-            </Stack>
-          </Paper>
-          <Paper shadow="xs" p="md" mt="md">
-            <p>Hits: </p>
-            <Stack
-              align="flex-start"
-              spacing="xs"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {hookHits.length > 0 ? (
-                <HitList hookHits={hookHits} />
-              ) : (
-                <p>No hits yet</p>
-              )}
-            </Stack>
-          </Paper>
-          <EditAction
-            setOpened={setOpenedEditModal}
-            opened={openedEditModal}
-            hook={hook}
-            refetchHook={() => refetchHook()}
-          />
-        </Container>
-        <GlobalModal />
-      </Authenticated>
-    );
-  }
+  return (
+    <Authenticated>
+      {loadingHook || loadingHits || fetchingHook || fetchingHits ? (
+        <Center style={{ marginTop: 300, fontSize: 50 }}>
+          <Loader  />
+        </Center>
+      ) : (
+        <>
+          <Container size={'md'}>
+            <Paper shadow="xs" p="md">
+              <Grid>
+                <Grid.Col span={7}>
+                  <Link href="/">{`<- Back`}</Link>
+                </Grid.Col>
+                <Grid.Col span={1} offset={3}>
+                  <Edit
+                    onClick={() => setOpenedEditModal(true)}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  />
+                </Grid.Col>
+                <Grid.Col span={1}>
+                  <Trash
+                    onClick={openDeleteModal}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  />
+                </Grid.Col>
+              </Grid>
+              <Divider my="sm" variant="dotted" />
+              <Stack align="flex-start" spacing="xs">
+                <p>Hook: {hook.id}</p>
+                <p>URL: {hook.url}</p>
+                <p>Method: {hook.method}</p>
+                <p>Cron: {hook.cron}</p>
+              </Stack>
+            </Paper>
+            <Paper shadow="xs" p="md" mt="md">
+              <p>Hits: </p>
+              <Stack
+                align="flex-start"
+                spacing="xs"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {hookHits.length > 0 ? (
+                  <HitList hookHits={hookHits} />
+                ) : (
+                  <p>No hits yet</p>
+                )}
+              </Stack>
+            </Paper>
+            <EditAction
+              setOpened={setOpenedEditModal}
+              opened={openedEditModal}
+              hook={hook}
+              refetchHook={() => refetchHook()}
+            />
+          </Container>
+          <GlobalModal />
+        </>
+      )}
+    </Authenticated>
+  );
 };
 
 export default WebhookId;
