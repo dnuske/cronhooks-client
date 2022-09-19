@@ -5,9 +5,9 @@ const HitList = ({ hookHits }) => {
   const items = hookHits.map((hook, i) => (
     <Accordion.Item label={<HitListItem hook={hook} />} key={hook.id}>
       {hook.response_data ? (
-        <div dangerouslySetInnerHTML={{ __html: hook.response_data }}></div>
+        <div>{hook.response_data}</div>
       ) : (
-        <Text>Empty response</Text>
+        <Text>[empty-response]</Text>
       )}
     </Accordion.Item>
   ));
