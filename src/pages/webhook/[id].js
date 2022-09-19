@@ -78,7 +78,7 @@ const WebhookId = () => {
     <Authenticated>
       {loadingHook || loadingHits || fetchingHook || fetchingHits ? (
         <Center style={{ marginTop: 300, fontSize: 50 }}>
-          <Loader color="teal" variant="dots" />
+          <Loader  />
         </Center>
       ) : (
         <>
