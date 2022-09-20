@@ -1,15 +1,9 @@
 import { Text, ThemeIcon, Badge } from '@mantine/core';
 import dayjs from 'dayjs';
 import { CircleCheck, InfoCircle, CircleX } from 'tabler-icons-react';
+import { formatDate } from '../../hooks/formatDate';
 
 function HitListItem({ hook }) {
-  const formatDate = (string) => {
-    const [str1, str2] = string.split('T');
-    const [str3] = str2.split('Z');
-
-    return str1 + ' ' + str3;
-  };
-
   const handleIcon = (status) => {
     switch (status) {
       case 200:

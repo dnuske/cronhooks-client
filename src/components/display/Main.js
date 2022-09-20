@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { getAllHooks } from '../../services/api';
 import { useQuery } from '@tanstack/react-query';
 import CronhookListItem from './CronhookListItem';
+import MainTable from './MainTable';
 
 export default function Main() {
   const os = useOs();
@@ -37,11 +38,7 @@ export default function Main() {
       <Center>
         <Container size={'md'}>
           <Paper shadow="xs" p="md">
-            <Stack align="flex-start" spacing="xs">
-              {cronhooks.map((cronhook, i) => (
-                <CronhookListItem key={`p${i}`} cronhook={cronhook} />
-              ))}
-            </Stack>
+            <MainTable cronhooks={cronhooks} />
           </Paper>
         </Container>
       </Center>
