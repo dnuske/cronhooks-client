@@ -93,7 +93,16 @@ function HitListItem({ hook }) {
     >
       {handleIcon(hook.response_status)}
       <div>
-        <Text>Status Code: {handleStatusBadge(hook.response_status)}</Text>
+        <Text>
+          Status Code:{' '}
+          {hook.response_status ? (
+            handleStatusBadge(hook.response_status)
+          ) : (
+            <Badge color="cyan" variant="filled">
+              NO STATUS RESPONSE
+            </Badge>
+          )}
+        </Text>
         <div
           style={{
             display: 'flex',

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { formatDate } from '../../hooks/formatDate';
 
 const MainTable = ({ cronhooks }) => {
-  console.log('MainTable', cronhooks);
   const rows = cronhooks.map((hook) => (
     <Link href={`/webhook/${hook.id}`} key={hook.id}>
       <tr
