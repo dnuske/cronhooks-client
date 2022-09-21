@@ -38,16 +38,20 @@ const WebhookId = () => {
     isFetching: fetchingHook,
     data: hook,
     refetch: refetchHook,
-  } = useQuery(['cronhook'], () => getHook(accessToken, id));
+  } = useQuery(['cronhook'], () => getHook(accessToken, id), {
+    refetchOnWindowFocus: false,
+  });
 
   const {
     isLoading: loadingHits,
-    isFetching: fetchingHits,
     data: hookHits,
     refetch: refetchHits,
   } = useQuery(['hits'], () => getHookHits(accessToken, id), {
     refetchInterval: 10000,
+    refetchOnWindowFocus: false,
   });
+
+  console.log(hookHits);
 
   appState.setSelectedHook(hook);
 
@@ -76,7 +80,7 @@ const WebhookId = () => {
 
   return (
     <Authenticated>
-      {loadingHook || loadingHits || fetchingHook || fetchingHits ? (
+      {loadingHook || loadingHits || fetchingHook ? (
         <Center style={{ marginTop: 300, fontSize: 50 }}>
           <Loader />
         </Center>

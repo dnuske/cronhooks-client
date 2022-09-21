@@ -19,6 +19,7 @@ function HitListItem({ hook }) {
             <CircleCheck size={26} />
           </ThemeIcon>
         );
+        break;
       case 404:
         return (
           <ThemeIcon
@@ -32,12 +33,14 @@ function HitListItem({ hook }) {
             <CircleX size={26} />
           </ThemeIcon>
         );
+        break;
       case 500:
         return (
           <Badge color="red" variant="filled">
             {status}
           </Badge>
         );
+        break;
       default:
         return (
           <ThemeIcon
@@ -51,6 +54,7 @@ function HitListItem({ hook }) {
             <InfoCircle size={26} />
           </ThemeIcon>
         );
+        break;
     }
   };
 
@@ -62,24 +66,28 @@ function HitListItem({ hook }) {
             {status}
           </Badge>
         );
+        break;
       case 404:
         return (
           <Badge color="red" variant="filled">
             {status}
           </Badge>
         );
+        break;
       case 500:
         return (
           <Badge color="red" variant="filled">
             {status}
           </Badge>
         );
+        break;
       default:
         return (
           <Badge color="cyan" variant="filled">
             {status}
           </Badge>
         );
+        break;
     }
   };
 
@@ -93,7 +101,16 @@ function HitListItem({ hook }) {
     >
       {handleIcon(hook.response_status)}
       <div>
-        <Text>Status Code: {handleStatusBadge(hook.response_status)}</Text>
+        <Text>
+          Status Code:{' '}
+          {hook.response_status ? (
+            handleStatusBadge(hook.response_status)
+          ) : (
+            <Badge color="cyan" variant="filled">
+              NO STATUS RESPONSE
+            </Badge>
+          )}
+        </Text>
         <div
           style={{
             display: 'flex',
