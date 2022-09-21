@@ -19,6 +19,7 @@ function HitListItem({ hook }) {
             <CircleCheck size={26} />
           </ThemeIcon>
         );
+        break;
       case 404:
         return (
           <ThemeIcon
@@ -32,12 +33,14 @@ function HitListItem({ hook }) {
             <CircleX size={26} />
           </ThemeIcon>
         );
+        break;
       case 500:
         return (
           <Badge color="red" variant="filled">
             {status}
           </Badge>
         );
+        break;
       default:
         return (
           <ThemeIcon
@@ -51,6 +54,7 @@ function HitListItem({ hook }) {
             <InfoCircle size={26} />
           </ThemeIcon>
         );
+        break;
     }
   };
 
@@ -62,24 +66,28 @@ function HitListItem({ hook }) {
             {status}
           </Badge>
         );
+        break;
       case 404:
         return (
           <Badge color="red" variant="filled">
             {status}
           </Badge>
         );
+        break;
       case 500:
         return (
           <Badge color="red" variant="filled">
             {status}
           </Badge>
         );
+        break;
       default:
         return (
           <Badge color="cyan" variant="filled">
             {status}
           </Badge>
         );
+        break;
     }
   };
 
