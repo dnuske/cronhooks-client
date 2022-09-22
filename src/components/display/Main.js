@@ -4,7 +4,6 @@ import AppState from '../../services/state';
 import { useEffect } from 'react';
 import { getAllHooks } from '../../services/api';
 import { useQuery } from '@tanstack/react-query';
-import CronhookListItem from './CronhookListItem';
 import MainTable from './MainTable';
 
 export default function Main() {
@@ -13,18 +12,15 @@ export default function Main() {
   let appState = AppState.useContainer();
   const [accessToken] = useLocalStorage({ key: 'access-token' });
 
-  const {
-    isLoading,
-    data: cronhooks,
-    refetch: refetchcronhooks,
-  } = useQuery(['cronhooks', appState.lastHookCreated], () =>
-    getAllHooks(accessToken)
+  const { isLoading, data } = useQuery(
+    ['cronhooks', appState.cronhooks, appState.lastHookCreated],
+    () => getAllHooks(accessToken)
   );
 
   useEffect(() => {
-    appState.setCronhooks(cronhooks);
+    appState.setCronhooks(data);
     appState.setSelectedHook(null);
-  }, [cronhooks]);
+  }, [data]);
 
   if (isLoading) {
     return (
@@ -33,12 +29,12 @@ export default function Main() {
       </Center>
     );
   }
-  if (cronhooks.length > 0) {
+  if (data.length > 0) {
     return (
       <Center>
         <Container size={'md'}>
           <Paper shadow="xs" p="md">
-            <MainTable cronhooks={cronhooks} />
+            <MainTable cronhooks={data} />
           </Paper>
         </Container>
       </Center>
