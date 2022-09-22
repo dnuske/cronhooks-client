@@ -22,7 +22,6 @@ export function useAppState() {
   let [selectedHook, setSelectedHook] = useState(null);
 
   // lastHook created
-
   let [lastHookCreated, setLastHookCreated] = useState({});
 
   return {

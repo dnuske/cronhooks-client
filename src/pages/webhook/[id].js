@@ -17,17 +17,15 @@ import {
 import { useModals } from '@mantine/modals';
 import AppState from '../../services/state';
 import { deleteHook, getHook, getHookHits } from '../../services/api';
-import EditCronhook from '../../components/actions/EditCronhook';
 import HitList from '../../components/display/HitList';
 import Authenticated from '../../components/auth/Authenticated';
 import GlobalModal from '../../components/architecture/GlobalModal';
-import EditAction from '../../components/actions/EditAction';
+// import EditAction from '../../components/actions/EditAction';
 
 const WebhookId = () => {
   const router = useRouter();
   let appState = AppState.useContainer();
   const [accessToken] = useLocalStorage({ key: 'access-token' });
-  const [openedEditModal, setOpenedEditModal] = useState(false);
 
   const modals = useModals();
 
@@ -37,29 +35,26 @@ const WebhookId = () => {
     isLoading: loadingHook,
     isFetching: fetchingHook,
     data: hook,
-    refetch: refetchHook,
-  } = useQuery(['cronhook'], () => getHook(accessToken, id), {
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery(
+    ['cronhook', appState.cronhooks, appState.selectedHook],
+    () => getHook(accessToken, id),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
-  const {
-    isLoading: loadingHits,
-    data: hookHits,
-    refetch: refetchHits,
-  } = useQuery(['hits'], () => getHookHits(accessToken, id), {
-    refetchInterval: 10000,
-    refetchOnWindowFocus: false,
-  });
-
-  console.log(hookHits);
-
-  appState.setSelectedHook(hook);
+  const { isLoading: loadingHits, data: hookHits } = useQuery(
+    ['hits'],
+    () => getHookHits(accessToken, id),
+    {
+      refetchInterval: 10000,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   useEffect(() => {
-    refetchHook();
-    refetchHits();
-    appState.setSelectedHook(hook);
-  }, [id]);
+    !loadingHook && appState.setSelectedHook(hook);
+  }, [loadingHook, id]);
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
@@ -94,7 +89,9 @@ const WebhookId = () => {
                 </Grid.Col>
                 <Grid.Col span={1} offset={3}>
                   <Edit
-                    onClick={() => setOpenedEditModal(true)}
+                    onClick={() => {
+                      appState.openGlobalModal('edit-cronhook');
+                    }}
                     style={{
                       cursor: 'pointer',
                     }}
@@ -111,12 +108,13 @@ const WebhookId = () => {
               </Grid>
               <Divider my="sm" variant="dotted" />
               <Stack align="flex-start" spacing="xs">
-                <p>Hook: {hook.id}</p>
-                <p>URL: {hook.url}</p>
-                <p>Method: {hook.method}</p>
-                <p>Cron: {hook.cron}</p>
+                <p>Hook: {hook?.id}</p>
+                <p>URL: {hook?.url}</p>
+                <p>Method: {hook?.method}</p>
+                <p>Cron: {hook?.cron}</p>
               </Stack>
             </Paper>
+
             <Paper shadow="xs" p="md" mt="md">
               <p>Hits: </p>
               <Stack
@@ -134,12 +132,6 @@ const WebhookId = () => {
                 )}
               </Stack>
             </Paper>
-            <EditAction
-              setOpened={setOpenedEditModal}
-              opened={openedEditModal}
-              hook={hook}
-              refetchHook={() => refetchHook()}
-            />
           </Container>
           <GlobalModal />
         </>
