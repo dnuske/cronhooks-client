@@ -35,9 +35,9 @@ export default function EditCronhook() {
 
   useEffect(() => {
     form.setValues({
-      method: hook.method,
-      url: hook.url,
-      cron: hook.cron,
+      method: hook?.method,
+      url: hook?.url,
+      cron: hook?.cron,
       body: '',
     });
   }, [hook]);
@@ -48,6 +48,7 @@ export default function EditCronhook() {
       <form
         onSubmit={form.onSubmit((values) => {
           updateHookMutation.mutate({ values, hookId: hook.id });
+          appState.setSelectedHook(values);
           appState.closeGlobalModal();
         })}
       >
