@@ -13,14 +13,18 @@ export default function Main() {
   const [accessToken] = useLocalStorage({ key: 'access-token' });
 
   const { isLoading, data } = useQuery(
-    ['cronhooks', appState.cronhooks, appState.lastHookCreated],
-    () => getAllHooks(accessToken)
+    ['cronhooks', appState.lastHookCreated?.url],
+    () => {
+      return getAllHooks(accessToken);
+    },{
+      refetchOnWindowFocus: false,
+    }
   );
 
   useEffect(() => {
     appState.setCronhooks(data);
     appState.setSelectedHook(null);
-  }, [data]);
+  }, [data?.map(i => i.id).join('-')]);
 
   if (isLoading) {
     return (
