@@ -33,22 +33,25 @@ const WebhookId = () => {
 
   const {
     isLoading: loadingHook,
-    isFetching: fetchingHook,
     data: hook,
   } = useQuery(
-    ['cronhook', appState.cronhooks, appState.selectedHook],
-    () => getHook(accessToken, id),
-    {
-      refetchOnWindowFocus: false,
+    ['cronhook', id, appState.updateToken],
+    () => {
+      if (id) {
+        return getHook(accessToken, id)
+      }
     }
   );
 
   const { isLoading: loadingHits, data: hookHits } = useQuery(
-    ['hits'],
-    () => getHookHits(accessToken, id),
+    ['hits', id],
+    () => {
+      if (id) {
+        return getHookHits(accessToken, id)
+      }
+    },
     {
       refetchInterval: 10000,
-      refetchOnWindowFocus: false,
     }
   );
 
@@ -75,13 +78,13 @@ const WebhookId = () => {
 
   return (
     <Authenticated>
-      {loadingHook || loadingHits || fetchingHook ? (
-        <Center style={{ marginTop: 300, fontSize: 50 }}>
-          <Loader />
-        </Center>
-      ) : (
-        <>
-          <Container size={'md'}>
+      <>
+        <Container size={'md'}>
+          {loadingHook || !hook ? (
+            <Center style={{ marginTop: 300, fontSize: 50 }}>
+              <Loader />
+            </Center>
+          ) : (
             <Paper shadow="xs" p="md">
               <Grid>
                 <Grid.Col span={7}>
@@ -108,13 +111,18 @@ const WebhookId = () => {
               </Grid>
               <Divider my="sm" variant="dotted" />
               <Stack align="flex-start" spacing="xs">
-                <p>Hook: {hook?.id}</p>
-                <p>URL: {hook?.url}</p>
-                <p>Method: {hook?.method}</p>
-                <p>Cron: {hook?.cron}</p>
+                <p>Hook: {hook.id}</p>
+                <p>URL: {hook.url}</p>
+                <p>Method: {hook.method}</p>
+                <p>Cron: {hook.cron}</p>
               </Stack>
             </Paper>
-
+          )}
+          {!hookHits || loadingHits ? (
+            <Center style={{ marginTop: 300, fontSize: 50 }}>
+              <Loader />
+            </Center>
+          ) : (
             <Paper shadow="xs" p="md" mt="md">
               <p>Hits: </p>
               <Stack
@@ -125,17 +133,17 @@ const WebhookId = () => {
                   alignItems: 'center',
                 }}
               >
-                {hookHits.length > 0 ? (
+                {hookHits?.length > 0 ? (
                   <HitList hookHits={hookHits} />
                 ) : (
                   <p>No hits yet</p>
                 )}
               </Stack>
             </Paper>
-          </Container>
-          <GlobalModal />
-        </>
-      )}
+          )}
+        </Container>
+        <GlobalModal />
+      </>
     </Authenticated>
   );
 };

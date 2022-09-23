@@ -40,9 +40,12 @@ export default function CreateCronhook() {
   });
 
   const handleSubmit = (values) => {
-    createHookMutation.mutate(values);
-    appState.setLastHookCreated(values);
-    appState.closeGlobalModal();
+    createHookMutation.mutate(values, {
+      onSuccess: async () => {
+        appState.setLastHookCreated(values);
+        appState.closeGlobalModal();
+      }
+    })
   };
 
   return (

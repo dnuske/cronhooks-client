@@ -47,9 +47,13 @@ export default function EditCronhook() {
       <LoadingOverlay visible={updateHookMutation.isLoading} />
       <form
         onSubmit={form.onSubmit((values) => {
-          updateHookMutation.mutate({ values, hookId: hook.id });
-          appState.setSelectedHook(values);
-          appState.closeGlobalModal();
+          updateHookMutation.mutate({ values, hookId: hook.id }, {
+            onSuccess: async () => {
+              appState.setSelectedHook(values)
+              appState.closeGlobalModal();
+              appState.setUpdateToken();
+            }
+          });
         })}
       >
         <Select

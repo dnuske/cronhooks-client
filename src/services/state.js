@@ -24,6 +24,11 @@ export function useAppState() {
   // lastHook created
   let [lastHookCreated, setLastHookCreated] = useState({});
 
+  let [updateToken, _setUpdateToken] = useState('');
+  function setUpdateToken() {
+    _setUpdateToken(String(Math.random()));
+  }
+
   return {
     globalModalOpen,
     openGlobalModal,
@@ -35,6 +40,8 @@ export function useAppState() {
     setSelectedHook,
     lastHookCreated,
     setLastHookCreated,
+    updateToken,
+    setUpdateToken
   };
 }
 
